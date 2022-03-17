@@ -69,6 +69,12 @@ class _PubSubImpl implements PubSub {
     return _api.projects.subscriptions.get(name);
   }
 
+  Future<pubsub.Subscription> _putSubscription(String projectId, String topicId,
+      String attribute, String attributeValue) {
+    return _api.projects.subscriptions.put(projectId, topicId, attribute, attributeValue
+    );
+  }
+
   Future<pubsub.ListSubscriptionsResponse> _listSubscriptions(
       String? topic, int pageSize, String? nextPageToken) {
     return _api.projects.subscriptions.list('projects/$project',
@@ -190,6 +196,13 @@ class _PubSubImpl implements PubSub {
   Future<Subscription> lookupSubscription(String name) {
     _checkSubscriptionName(name);
     return _getSubscription(_fullSubscriptionName(name))
+        .then((sub) => _SubscriptionImpl(this, sub));
+  }
+
+  @override
+  Future<Subscription> lookupSubscriptionWithFilter(String projectId,
+      String topicId, String attribute, String attributeValue) {
+    return _putSubscription(projectId, topicId, attribute, attributeValue)
         .then((sub) => _SubscriptionImpl(this, sub));
   }
 

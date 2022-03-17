@@ -195,6 +195,8 @@ abstract class PubSub {
   ///
   /// Returns a `Future` which completes with the subscription.
   Future<Subscription> lookupSubscription(String name);
+  Future<Subscription> lookupSubscriptionWithFilter(String projectId,
+      String topicId, String attribute, String attributeValue);
 
   /// List subscriptions.
   ///
